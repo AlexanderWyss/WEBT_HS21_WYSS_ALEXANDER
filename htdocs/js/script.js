@@ -65,6 +65,10 @@ function isNumber(value) {
     return /^\d+$/.test(value);
 }
 
+function isNumberOrX(value) {
+    return isNumber(value) || value === 'x';
+}
+
 function toJSFunctionText(func) {
     console.debug('Input: ' + func);
     func = func.replaceAll(/\s/g, '')
@@ -77,6 +81,9 @@ function toJSFunctionText(func) {
                 split[split.length - 1] += func[i]
                 i++;
             } else if (func[i] === '(') {
+                if (split.length > 0 && (isNumberOrX(split[split.length - 1]) || split[split.length - 1].endsWith(')'))) {
+                    split.push('*');
+                }
                 let innerCount = 0;
                 let inner = '';
                 do {
@@ -90,7 +97,18 @@ function toJSFunctionText(func) {
                 } while (innerCount !== 0)
                 split.push('(' + toJSFunctionText(inner.substring(1, inner.length - 1)) + ')');
             } else {
-                split.push(func[i]);
+                if (isNumberOrX(func[i]) && split.length > 0) {
+                    if (split[split.length - 1].endsWith(')')) {
+                        split.push('*');
+                        split.push(func[i]);
+                    } else if (isNumberOrX(split[split.length - 1])) {
+                        split[split.length - 1] = `(${split[split.length - 1]}*${func[i]})`
+                    } else {
+                        split.push(func[i]);
+                    }
+                } else {
+                    split.push(func[i]);
+                }
                 i++;
             }
         }
@@ -105,14 +123,12 @@ function toJSFunctionText(func) {
                 split[i - 1] = `Math.pow(${split[i + 1]}, 1/${split[i - 1]})`;
                 split.splice(i, 2);
                 i += 2;
-            } else if (i + 1 < split.length && isNumber(split[i]) && split[i + 1] === 'x') { // TODO handle 2x after ^ eg. 2^2x && handle () multiplication
-                split[i] = `(${split[i]}*${split[i + 1]})`
-                split.splice(i + 1, 1);
             } else {
                 i++;
             }
         }
         console.debug('PostProcess: ' + split);
+        // () auto multiplication still wonky 2^(4)2x
         return split.join('');
     } else {
         throw new Error('Invalid function.');
