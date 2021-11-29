@@ -68,7 +68,7 @@ function isNumber(value) {
 function toJSFunctionText(func) {
     func = func.replaceAll(/\s/g, '')
     // x 0-9 - * ^ + / ( )
-    if (func.length > 0 && /^[x\d+\-*\/^(\)]+$/.test(func)) {
+    if (func.length > 0 && /^[x\d+\-*\/^(\)√]+$/.test(func)) {
         let i = 1;
         const split = [func[0]];
         while (i < func.length) {
@@ -99,6 +99,10 @@ function toJSFunctionText(func) {
                 split[i - 1] = `Math.pow(${split[i - 1]}, ${split[i + 1]})`;
                 split.splice(i, 2);
                 i += 2;
+            } else if (split[i] === '√') {
+                split[i - 1] = `Math.pow(${split[i + 1]}, 1/${split[i - 1]})`;
+                split.splice(i, 2);
+                i += 2;
             } else if (i + 1 < split.length && isNumber(split[i]) && split[i + 1] === 'x') {
                 split[i] = `(${split[i]}*${split[i + 1]})`
                 split.splice(i + 1, 1);
@@ -114,6 +118,7 @@ function toJSFunctionText(func) {
 
 function toJSFunction(func) {
     let funcText = toJSFunctionText(func);
+    console.debug(funcText);
     return (x) => {
         return eval(funcText.replaceAll('x', x));
     }
