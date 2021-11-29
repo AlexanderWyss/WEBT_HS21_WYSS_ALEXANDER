@@ -61,12 +61,71 @@ function clearCanvas() {
     c.beginPath();
 }
 
+function isNumber(value) {
+    return /^\d+$/.test(value);
+}
+
+function toJSFunctionText(func) {
+    func = func.replaceAll(/\s/g, '')
+    // x 0-9 - * ^ + / ( )
+    if (func.length > 0 && /^[x\d+\-*\/^(\)]+$/.test(func)) {
+        let i = 1;
+        const split = [func[0]];
+        while (i < func.length) {
+            if (isNumber(func[i]) && isNumber(split[split.length - 1])) {
+                split[split.length - 1] += func[i]
+                i++;
+            } else if (func[i] === '(') {
+                let innerCount = 0;
+                let inner = '';
+                do {
+                    if (func[i] === '(') {
+                        innerCount++;
+                    } else if (func[i] === ')') {
+                        innerCount--;
+                    }
+                    inner += func[i];
+                    i++;
+                } while (innerCount !== 0)
+                split.push(toJSFunctionText(inner));
+            } else {
+                split.push(func[i]);
+                i++;
+            }
+        }
+        i = 0;
+        while (i < split.length) {
+            if (split[i] === '^') {
+                split[i - 1] = `Math.pow(${split[i - 1]}, ${split[i + 1]})`;
+                split.splice(i, 2);
+                i += 2;
+            } else if (i + 1 < split.length && isNumber(split[i]) && split[i + 1] === 'x') {
+                split[i] = `(${split[i]}*${split[i + 1]})`
+                split.splice(i + 1, 1);
+            } else {
+                i++;
+            }
+        }
+        return split.join('');
+    } else {
+        throw new Error('Invalid function.');
+    }
+}
+
+function toJSFunction(func) {
+    let funcText = toJSFunctionText(func);
+    return (x) => {
+        return eval(funcText.replaceAll('x', x));
+    }
+}
+
 function displayFunction(func) {
     clearCanvas();
     drawAxes();
+    const jsFunc = toJSFunction(func);
     c.beginPath();
     for (let x = maxFuncXY * -1; x <= maxFuncXY; x += 0.1) {
-        const y = eval(func.replaceAll('x', x));
+        const y = jsFunc(x);
         c.lineTo(getXForValue(x), getYForValue(y));
     }
     c.stroke();
