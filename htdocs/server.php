@@ -1,3 +1,3 @@
 <?php
-echo 'hi';
+echo '<a href="index.html">Home</a>';
 ?>

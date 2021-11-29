@@ -12,18 +12,32 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="css/style.css?v=1.0">
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>-->
 </head>
 <body>
-<header>Test yes</header>
-<nav></nav>
-<section id="info">
+<header class="w3-container">
+    <h3>Test yes</h3>
+</header>
+<nav class="w3-bar">
+    <a href="#info-section" class="w3-bar-item w3-button w3-mobile">Info</a>
+    <a href="#form-section" class="w3-bar-item w3-button w3-mobile">Form</a>
+    <a href="#canvas-section" class="w3-bar-item w3-button w3-mobile">Canvas</a>
+</nav>
+<section id="info-section">
     <article>
-        <p></p>
+        <p>Info</p>
     </article>
 </section>
-<section id="form"></section>
-<section id="canvas"></section>
+<section id="form-section">
+    <article>
+        <form id="form" action="server.php" method="POST">
+            <input type="submit" value="submit">
+        </form>
+    </article>
+</section>
+<section id="canvas-section">
+    <canvas></canvas>
+</section>
 <footer></footer>
 <script src="js/script.js"></script>
 </body>
