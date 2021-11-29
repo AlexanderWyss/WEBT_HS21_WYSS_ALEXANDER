@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TODO</title>
-    <meta name="description" content="TODO">
+    <title>Funktionen</title>
+    <meta name="description" content="Funktionen">
     <meta name="author" content="Alexander Wyss">
 
-    <!--<link rel="icon" href="/favicon.ico">-->
+    <link rel="icon" href="img/favicon.ico">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="css/style.css?v=1.0">
 
@@ -16,7 +16,7 @@
 </head>
 <body>
 <header class="w3-container">
-    <h3>Test yes</h3>
+    <h3>Funktionen</h3>
 </header>
 <nav class="w3-bar">
     <a href="#info-section" class="w3-bar-item w3-button w3-mobile">Info</a>
@@ -25,18 +25,22 @@
 </nav>
 <section id="info-section">
     <article>
-        <p>Info</p>
+        <p>y=f(x)</p>
     </article>
 </section>
 <section id="form-section">
     <article>
-        <form id="form" action="server.php" method="POST">
-            <input type="submit" value="submit">
+        <form id="form">
+            <div>
+                <label for="func">Funktion f(x)=</label>
+                <input type="text" id="func" name="func">
+            </div>
+            <input type="submit" value="Submit">
         </form>
     </article>
 </section>
 <section id="canvas-section">
-    <canvas></canvas>
+    <canvas id="function-canvas"></canvas>
 </section>
 <footer><small>&copy; Copyright 2021, Alexander Wyss</small></footer>
 <script src="js/script.js"></script>
