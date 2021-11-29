@@ -66,13 +66,14 @@ function isNumber(value) {
 }
 
 function toJSFunctionText(func) {
+    console.debug('Input: ' + func);
     func = func.replaceAll(/\s/g, '')
     // x 0-9 - * ^ + / ( )
     if (func.length > 0 && /^[x\d+\-*\/^(\)√]+$/.test(func)) {
-        let i = 1;
-        const split = [func[0]];
+        let i = 0;
+        const split = [];
         while (i < func.length) {
-            if (isNumber(func[i]) && isNumber(split[split.length - 1])) {
+            if (split.length > 0 && isNumber(func[i]) && isNumber(split[split.length - 1])) {
                 split[split.length - 1] += func[i]
                 i++;
             } else if (func[i] === '(') {
@@ -87,12 +88,13 @@ function toJSFunctionText(func) {
                     inner += func[i];
                     i++;
                 } while (innerCount !== 0)
-                split.push(toJSFunctionText(inner));
+                split.push('(' + toJSFunctionText(inner.substring(1, inner.length - 1)) + ')');
             } else {
                 split.push(func[i]);
                 i++;
             }
         }
+        console.debug('Split: ' + split);
         i = 0;
         while (i < split.length) {
             if (split[i] === '^') {
@@ -103,13 +105,14 @@ function toJSFunctionText(func) {
                 split[i - 1] = `Math.pow(${split[i + 1]}, 1/${split[i - 1]})`;
                 split.splice(i, 2);
                 i += 2;
-            } else if (i + 1 < split.length && isNumber(split[i]) && split[i + 1] === 'x') {
+            } else if (i + 1 < split.length && isNumber(split[i]) && split[i + 1] === 'x') { // TODO handle 2x after ^ eg. 2^2x && handle () multiplication
                 split[i] = `(${split[i]}*${split[i + 1]})`
                 split.splice(i + 1, 1);
             } else {
                 i++;
             }
         }
+        console.debug('PostProcess: ' + split);
         return split.join('');
     } else {
         throw new Error('Invalid function.');
@@ -118,7 +121,6 @@ function toJSFunctionText(func) {
 
 function toJSFunction(func) {
     let funcText = toJSFunctionText(func);
-    console.debug(funcText);
     return (x) => {
         return eval(funcText.replaceAll('x', x));
     }
@@ -131,14 +133,30 @@ function displayFunction(func) {
     c.beginPath();
     for (let x = maxFuncXY * -1; x <= maxFuncXY; x += 0.1) {
         const y = jsFunc(x);
-        c.lineTo(getXForValue(x), getYForValue(y));
+        if (isNaN(y) || !isFinite(y) || Math.abs(y) > canvasSize) {
+            c.stroke();
+            c.beginPath();
+        } else {
+            c.lineTo(getXForValue(x), getYForValue(y));
+        }
     }
     c.stroke();
 }
 
+const funcInput = document.getElementById('func');
 document.getElementById('form').addEventListener('submit', event => {
     event.preventDefault();
-    displayFunction(document.getElementById('func').value);
+    displayFunction(funcInput.value);
 });
+
+function addRoot() {
+    funcInput.value += '()√()';
+    funcInput.focus();
+}
+
+function addPower() {
+    funcInput.value += '^';
+    funcInput.focus();
+}
 
 drawAxes();
