@@ -43,7 +43,7 @@
             </div>
             <div v-if="comparisonType === 'new'">
                 <label for="nameNew">Name</label>
-                <input v-model="name" v-on:change="onNameChange()" type="text" id="nameNew" name="name" required>
+                <input v-model="name" v-on:change="onNameChange()" type="text" id="nameNew" name="name" pattern="[a-zA-Z0-9\-_]+" required>
             </div>
             <div v-if="comparisonType === 'compare'">
                 <label for="nameSelect">Name</label>
