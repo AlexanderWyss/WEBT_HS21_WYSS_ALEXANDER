@@ -184,13 +184,18 @@ function readPopulationFromRequest(): Population
     return $population;
 }
 
-if (isset($_COOKIE["population"])) {
-    $previousNeeds = calculateNeeds(stringToPopulation($_COOKIE["population"]));
-}
 
 $population = readPopulationFromRequest();
 $needs = calculateNeeds($population);
-setcookie("population", populationToString($population), time() + 60 * 60 * 24 * 30);
+
+$comparisonType = $_POST["comparisonType"]; // TODO validate & validate name
+if ($comparisonType == 'new' || $comparisonType == 'compare') {
+    $name = trim($_POST["name"]);
+    if ($comparisonType == 'compare' && isset($_COOKIE[$name . "_population"])) {
+        $previousNeeds = calculateNeeds(stringToPopulation($_COOKIE[$name . "_population"]));
+    }
+    setcookie($name . "_population", populationToString($population), time() + 60 * 60 * 24 * 30);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

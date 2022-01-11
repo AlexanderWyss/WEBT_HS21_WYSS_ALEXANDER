@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="css/style.css?v=1.0">
 
-    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 </head>
 <body>
 <header class="w3-container">
@@ -26,38 +26,60 @@
 <section id="info-section">
     <article>
         <p></p>
+        <img/>
     </article>
 </section>
 <section id="form-section">
     <article>
         <form id="form" action="server.php" method="post">
             <div>
+                <label for="comparisonType">Modus</label>
+                <select v-on:change="onComparisonTypeChange()" v-model="comparisonType" id="comparisonType"
+                        name="comparisonType">
+                    <option value="none">Nicht vergleichen</option>
+                    <option value="new">Neu</option>
+                    <option value="compare">Vergleichen</option>
+                </select>
+            </div>
+            <div v-if="comparisonType === 'new'">
+                <label for="nameNew">Name</label>
+                <input v-model="name" v-on:change="onNameChange()" type="text" id="nameNew" name="name" required>
+            </div>
+            <div v-if="comparisonType === 'compare'">
+                <label for="nameSelect">Name</label>
+                <select v-model="name" v-on:change="onSelectedComparisonChange()" id="nameSelect" name="name" required>
+                    <option disabled value="">Bitte auswählen...</option>
+                    <option v-for="dataOption in dataOptions" v-bind:value="dataOption">{{ dataOption }}</option>
+                </select>
+            </div>
+            <div>
                 <label for="beggars">Bettler</label>
-                <input type="number" min="0" value="0" id="beggars" name="beggars">
+                <input v-model="population.beggars" type="number" min="0" value="0" id="beggars" name="beggars">
             </div>
             <div>
                 <label for="peasants">Bauern</label>
-                <input type="number" min="0" value="0" id="peasants" name="peasants">
+                <input v-model="population.peasants" type="number" min="0" value="0" id="peasants" name="peasants">
             </div>
             <div>
                 <label for="citizens">Bürger</label>
-                <input type="number" min="0" value="0" id="citizens" name="citizens">
+                <input v-model="population.citizens" type="number" min="0" value="0" id="citizens" name="citizens">
             </div>
             <div>
                 <label for="patricians">Patrizier</label>
-                <input type="number" min="0" value="0" id="patricians" name="patricians">
+                <input v-model="population.patricians" type="number" min="0" value="0" id="patricians"
+                       name="patricians">
             </div>
             <div>
                 <label for="noblemen">Adlige</label>
-                <input type="number" min="0" value="0" id="noblemen" name="noblemen">
+                <input v-model="population.noblemen" type="number" min="0" value="0" id="noblemen" name="noblemen">
             </div>
             <div>
                 <label for="nomads">Nomaden</label>
-                <input type="number" min="0" value="0" id="nomads" name="nomads">
+                <input v-model="population.nomads" type="number" min="0" value="0" id="nomads" name="nomads">
             </div>
             <div>
                 <label for="envoys">Gesandte</label>
-                <input type="number" min="0" value="0" id="envoys" name="envoys">
+                <input v-model="population.envoys" type="number" min="0" value="0" id="envoys" name="envoys">
             </div>
             <input type="submit" value="Submit">
         </form>
