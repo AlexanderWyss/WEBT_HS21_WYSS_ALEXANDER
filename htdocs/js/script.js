@@ -98,11 +98,11 @@ function run() {
                 let populationKeys = Object.keys(this.population);
                 const padding = 10;
                 const barWidth = (canvasWidth / populationKeys.length) - padding;
-                canvasContext.fillStyle = "#4287f5";
                 for (let i = 0; i < populationKeys.length; i++) {
                     const height = canvasHeight / maxPopulation * this.population[populationKeys[i]];
                     let x = (i * (barWidth + padding)) + padding;
                     let y = canvasHeight - height;
+                    canvasContext.fillStyle = "#4287f5";
                     canvasContext.fillRect(x, y, barWidth, height);
                     const imageSize = barWidth * 0.75;
                     const imagePadding = (barWidth - imageSize) / 2;
@@ -111,6 +111,9 @@ function run() {
                         canvasContext.drawImage(image, x + imagePadding, y + imagePadding, imageSize, imageSize);
                     }
                     image.src = "img/" + populationKeys[i] + ".png";
+                    canvasContext.fillStyle = "#000000";
+                    canvasContext.fillText(this.population[populationKeys[i]].toString(),
+                        x + imagePadding, y + (2 * imagePadding) + imageSize);
                 }
 
                 canvasContext.fillStyle = "#000000";
@@ -122,7 +125,7 @@ function run() {
                     canvasContext.moveTo(0, y);
                     canvasContext.lineTo(padding, y);
                     canvasContext.stroke();
-                    canvasContext.fillText(((maxPopulation / 10) * i).toFixed(2),
+                    canvasContext.fillText(((maxPopulation / 10) * i).toFixed(0),
                         padding + 1, i === 0 ? y : (i === 10 ? y + 10 : y + 5));
                 }
             }
