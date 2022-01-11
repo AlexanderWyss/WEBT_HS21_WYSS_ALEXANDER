@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>WEBT</title>
-    <meta name="description" content="Funktionen">
+    <meta name="description" content="WEBT">
     <meta name="author" content="Alexander Wyss">
 
     <link rel="icon" href="img/favicon.ico">
@@ -30,13 +30,41 @@
 </section>
 <section id="form-section">
     <article>
-        <form id="form">
+        <form id="form" action="server.php" method="post">
+            <div>
+                <label for="beggars">Bettler</label>
+                <input type="number" min="0" value="0" id="beggars" name="beggars">
+            </div>
+            <div>
+                <label for="peasants">Bauern</label>
+                <input type="number" min="0" value="0" id="peasants" name="peasants">
+            </div>
+            <div>
+                <label for="citizens">Bürger</label>
+                <input type="number" min="0" value="0" id="citizens" name="citizens">
+            </div>
+            <div>
+                <label for="patricians">Patrizier</label>
+                <input type="number" min="0" value="0" id="patricians" name="patricians">
+            </div>
+            <div>
+                <label for="noblemen">Adlige</label>
+                <input type="number" min="0" value="0" id="noblemen" name="noblemen">
+            </div>
+            <div>
+                <label for="nomads">Nomaden</label>
+                <input type="number" min="0" value="0" id="nomads" name="nomads">
+            </div>
+            <div>
+                <label for="envoys">Gesandte</label>
+                <input type="number" min="0" value="0" id="envoys" name="envoys">
+            </div>
             <input type="submit" value="Submit">
         </form>
     </article>
 </section>
 <section id="canvas-section">
-    <canvas id="function-canvas"></canvas>
+    <canvas id="canvas"></canvas>
 </section>
 <footer><small>&copy; Copyright 2021, Alexander Wyss</small></footer>
 <script src="js/script.js"></script>
