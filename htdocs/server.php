@@ -142,6 +142,32 @@ function calculateNeeds(Population $population): Needs
     return $needs;
 }
 
+function needsToString(Needs $needs): string
+{
+    $stringValue = "";
+    foreach ($needs as $key => $value) {
+        $stringValue .= $key . ":" . number_format($value, 2) . ";";
+    }
+    return $stringValue;
+}
+
+function stringToNeeds(string $needsString): Needs
+{
+    $needsValues = explode(";", $needsString);
+    $needs = new Needs();
+    foreach ($needsValues as $needValue) {
+        if (!empty($needValue)) {
+            $needKeyValue = explode(":", $needValue);
+            if (count($needKeyValue) == 2) {
+                $key = $needKeyValue[0];
+                $value = (float)$needKeyValue[1];
+                $needs->$key = $value;
+            }
+        }
+    }
+    return $needs;
+}
+
 function validateInt(string $value): int
 {
     if (is_numeric($value)) {
@@ -162,12 +188,51 @@ function readPopulationFromRequest(): Population
         validateInt($_POST['patricians']), validateInt($_POST['noblemen']), validateInt($_POST['nomads']), validateInt($_POST['envoys']));
 }
 
+if (isset($_COOKIE["previous_needs"])) {
+    $previousNeeds = stringToNeeds($_COOKIE["previous_needs"]);
+}
+
 $population = readPopulationFromRequest();
 $needs = calculateNeeds($population);
-echo "<ul>";
-foreach ($needs as $key => $value) {
-    echo "<li>" . $needsTranslation[$key] . ": " . number_format($value, 2) . "</li>";
-}
-echo "</ul>"
+setcookie("previous_needs", needsToString($needs), time() + 60 * 60 * 24 * 30);
 ?>
-<a href=".">Home</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>WEBT</title>
+    <meta name="description" content="WEBT">
+    <meta name="author" content="Alexander Wyss">
+
+    <link rel="icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="css/style.css?v=1.0">
+</head>
+<body>
+<header class="w3-container">
+    <h3>WEBT</h3>
+</header>
+<section>
+    <article>
+        <?php
+        echo "<ul>";
+        foreach ($needs as $key => $value) {
+            echo "<li>" . $needsTranslation[$key] . ": " . number_format($value, 2);
+            if (isset($previousNeeds)) {
+                $needsDiff = $value - $previousNeeds->$key;
+                echo " <small>" . ($needsDiff >= 0 ? '+' : '') . number_format($needsDiff, 2) . "</small>";
+            }
+            echo "</li>";
+        }
+        echo "</ul>"
+        ?>
+    </article>
+</section>
+<section>
+    <a href=".">Home</a>
+</section>
+<footer><small>&copy; Copyright 2021, Alexander Wyss</small></footer>
+</body>
+</html>
