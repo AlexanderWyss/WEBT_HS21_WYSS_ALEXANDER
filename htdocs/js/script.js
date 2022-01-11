@@ -104,6 +104,7 @@ function run() {
                     let y = canvasHeight - height;
                     canvasContext.fillStyle = "#4287f5";
                     canvasContext.fillRect(x, y, barWidth, height);
+
                     const imageSize = barWidth * 0.75;
                     const imagePadding = (barWidth - imageSize) / 2;
                     const image = new Image(imageSize, imageSize);
@@ -111,6 +112,7 @@ function run() {
                         canvasContext.drawImage(image, x + imagePadding, y + imagePadding, imageSize, imageSize);
                     }
                     image.src = "img/" + populationKeys[i] + ".png";
+
                     canvasContext.fillStyle = "#000000";
                     canvasContext.fillText(this.population[populationKeys[i]].toString(),
                         x + imagePadding, y + (2 * imagePadding) + imageSize);
