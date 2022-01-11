@@ -36,7 +36,6 @@ class Needs
     public float $marzipan;
 }
 
-
 $needsTranslation = [
     "fish" => "Fisch",
     "spice" => "Gewürz",
@@ -149,8 +148,7 @@ function stringToPopulation(string $populationString): Population
             $keyValue = explode(":", $populationValue);
             if (count($keyValue) == 2) {
                 $key = $keyValue[0];
-                $value = (float)$keyValue[1];
-                $population->$key = $value;
+                $population->$key = validateInt($keyValue[1]);
             }
         }
     }
@@ -184,14 +182,35 @@ function readPopulationFromRequest(): Population
     return $population;
 }
 
+function readComparisonTypeFromRequest(): string
+{
+    if (isset($_POST["comparisonType"])) {
+        $comparisonType = $_POST["comparisonType"];
+        if (in_array($comparisonType, ["new", "compare", "none"])) {
+            return $comparisonType;
+        }
+    }
+    throw new InvalidArgumentException();
+}
+
+function readNameTypeFromRequest(): string
+{
+    if (isset($_POST["name"])) {
+        $name = trim($_POST["name"]);
+        if (!empty($name)) {
+            return $name;
+        }
+    }
+    throw new InvalidArgumentException();
+}
 
 $population = readPopulationFromRequest();
 $needs = calculateNeeds($population);
 
-$comparisonType = $_POST["comparisonType"]; // TODO validate & validate name
+$comparisonType = readComparisonTypeFromRequest();
 if ($comparisonType == 'new' || $comparisonType == 'compare') {
-    $name = trim($_POST["name"]);
-    if ($comparisonType == 'compare' && isset($_COOKIE[$name . "_population"])) {
+    $name = readNameTypeFromRequest();
+    if ($comparisonType == 'compare') {
         $previousNeeds = calculateNeeds(stringToPopulation($_COOKIE[$name . "_population"]));
     }
     setcookie($name . "_population", populationToString($population), time() + 60 * 60 * 24 * 30);
@@ -217,18 +236,18 @@ if ($comparisonType == 'new' || $comparisonType == 'compare') {
 </header>
 <section>
     <article>
-        <?php
-        echo "<ul>";
-        foreach ($needs as $key => $value) {
-            echo "<li>" . $needsTranslation[$key] . ": " . number_format($value, 2);
-            if (isset($previousNeeds)) {
-                $needsDiff = $value - $previousNeeds->$key;
-                echo " <small>" . ($needsDiff >= 0 ? '+' : '') . number_format($needsDiff, 2) . "</small>";
+        <ul>
+            <?php
+            foreach ($needs as $key => $value) {
+                echo "<li>" . $needsTranslation[$key] . ": " . number_format($value, 2);
+                if (isset($previousNeeds)) {
+                    $needsDiff = $value - $previousNeeds->$key;
+                    echo " <small>" . ($needsDiff >= 0 ? '+' : '') . number_format($needsDiff, 2) . "</small>";
+                }
+                echo "</li>";
             }
-            echo "</li>";
-        }
-        echo "</ul>"
-        ?>
+            ?>
+        </ul>
     </article>
 </section>
 <section>
