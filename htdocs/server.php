@@ -222,8 +222,8 @@ if ($comparisonType == 'new' || $comparisonType == 'compare') {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>WEBT</title>
-    <meta name="description" content="WEBT">
+    <title>Anno 1404</title>
+    <meta name="description" content="Anno 1404 Bedürfnisrechner">
     <meta name="author" content="Alexander Wyss">
 
     <link rel="icon" href="img/favicon.ico">
@@ -232,7 +232,7 @@ if ($comparisonType == 'new' || $comparisonType == 'compare') {
 </head>
 <body>
 <header class="w3-container">
-    <h3>WEBT</h3>
+    <h3>Anno 1404 Bedürfnisrechner</h3>
 </header>
 <section>
     <article>
@@ -249,9 +249,7 @@ if ($comparisonType == 'new' || $comparisonType == 'compare') {
             ?>
         </ul>
     </article>
-</section>
-<section>
-    <a href=".">Home</a>
+    <a href=".">Zurück</a>
 </section>
 <footer><small>&copy; Copyright 2021, Alexander Wyss</small></footer>
 </body>

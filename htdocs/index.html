@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>WEBT</title>
-    <meta name="description" content="WEBT">
+    <title>Anno 1404</title>
+    <meta name="description" content="Anno 1404 Bedürfnisrechner">
     <meta name="author" content="Alexander Wyss">
 
     <link rel="icon" href="img/favicon.ico">
@@ -17,7 +17,7 @@
 </head>
 <body onload="run()">
 <header class="w3-container">
-    <h3>WEBT</h3>
+    <h3>Anno 1404 Bedürfnisrechner</h3>
 </header>
 <nav class="w3-bar">
     <a href="#info-section" class="w3-bar-item w3-button w3-mobile">Info</a>
@@ -26,8 +26,38 @@
 </nav>
 <section id="info-section">
     <article>
-        <p></p>
-        <img/>
+        <p>
+            Anno 1404 ist ein Aufbauspiel veröffentlicht von Ubisoft.
+            Der Spieler übernimmt die Rolle eines Seefahrers welcher sich in noch unerschlossene Territorien vorwagt und
+            diese Besiedelt.
+            Damit wagemutige Siedler in die neu errichteten Städte ziehen müssen deren Bedürfnisse erfüllt werden.
+            Zuerst Kommen nur Bauern mit einfachen Bedürfnissen wie Fisch und Most, doch wenn man weiter vorankommen
+            will und Bürger, Patrizier sowie Adlige in die Stadt locken will, müssen komplexere Güter wie Kerzenhalter
+            hergestellt werden.
+        </p>
+        <img src="img/island.jpg" alt="Anno 1404 Siedlung"/>
+        <p>
+            Dieser Rechner hilft dabei. Anhand der Anzahl Einwohner wird die Anzahl der benötigten
+            Produktionsgebäude pro Bedürfnis errechnet, damit die Siedlung stabil versorgt werden kann.
+        </p>
+        <img src="img/Anno_1404.jpg" alt="Anno 1404 Spiel Cover"/>
+        <h4>Bedienung</h4>
+        <p>
+            Einfach die Anzahl Einwohner pro Bevölkerungsstufe im unteren Formular eintragen und Berechnen drücken.
+            <br/>
+            Damit mann dies nicht immer wieder alles Manuell eintragen muss kann man mit dem Modus die Werten mit
+            vorherigen eingaben vergleichen.
+            <br/>
+            Mit dem Modus "Neu" kann man einen neuen Bevölkerungseintrag erstellen. Dabei muss man zusätzlich noch einen
+            Namen eingeben um ihn später wieder identifizieren zu können. Durch Berechnen wird der Eintrag gespeichert.
+            <br/>
+            Wenn man diese dann für einen neue Anzahl Einwohner vergleichen will, kann mit dem Modus "Vergleichen" eine der erstellten Bevölkerungseinträge
+            auswählen. Dann die neue Bevölkerungszahlen eintragen und mit Berechnen die neuen Daten gleich speichern. In der Berechnungsübersicht wird dann der
+            Unterschied der benötigten Produktionsgebäude pro Gut angezeigt.
+        </p>
+        <p>
+            Zusätzlich werden gleich die verschiedenen Anzahl Bewohner in einem wirklich äusserst extrem praktischen Diagramm dargestellt.
+        </p>
     </article>
 </section>
 <section id="form-section">
@@ -44,7 +74,8 @@
             </div>
             <div v-if="comparisonType === 'new'">
                 <label for="nameNew">Name</label>
-                <input v-model="name" v-on:change="onNameChange()" type="text" id="nameNew" name="name" pattern="[a-zA-Z0-9\-_]+" required>
+                <input v-model="name" v-on:change="onNameChange()" type="text" id="nameNew" name="name"
+                       pattern="[a-zA-Z0-9\-_]+" required>
             </div>
             <div v-if="comparisonType === 'compare'">
                 <label for="nameSelect">Name</label>
@@ -55,35 +86,42 @@
             </div>
             <div>
                 <label for="beggars">Bettler</label>
-                <input v-on:change="onPopulationChange()" v-model="population.beggars" type="number" min="0" value="0" id="beggars" name="beggars">
+                <input v-on:change="onPopulationChange()" v-model="population.beggars" type="number" min="0"
+                       id="beggars" name="beggars">
             </div>
             <div>
                 <label for="peasants">Bauern</label>
-                <input v-on:change="onPopulationChange()" v-model="population.peasants" type="number" min="0" value="0" id="peasants" name="peasants">
+                <input v-on:change="onPopulationChange()" v-model="population.peasants" type="number" min="0"
+                       id="peasants" name="peasants">
             </div>
             <div>
                 <label for="citizens">Bürger</label>
-                <input v-on:change="onPopulationChange()" v-model="population.citizens" type="number" min="0" value="0" id="citizens" name="citizens">
+                <input v-on:change="onPopulationChange()" v-model="population.citizens" type="number" min="0"
+                       id="citizens" name="citizens">
             </div>
             <div>
                 <label for="patricians">Patrizier</label>
-                <input v-on:change="onPopulationChange()" v-model="population.patricians" type="number" min="0" value="0" id="patricians"
+                <input v-on:change="onPopulationChange()" v-model="population.patricians" type="number" min="0"
+                       id="patricians"
                        name="patricians">
             </div>
             <div>
                 <label for="noblemen">Adlige</label>
-                <input v-on:change="onPopulationChange()" v-model="population.noblemen" type="number" min="0" value="0" id="noblemen" name="noblemen">
+                <input v-on:change="onPopulationChange()" v-model="population.noblemen" type="number" min="0"
+                       id="noblemen" name="noblemen">
             </div>
             <div>
                 <label for="nomads">Nomaden</label>
-                <input v-on:change="onPopulationChange()" v-model="population.nomads" type="number" min="0" value="0" id="nomads" name="nomads">
+                <input v-on:change="onPopulationChange()" v-model="population.nomads" type="number" min="0" id="nomads"
+                       name="nomads">
             </div>
             <div>
                 <label for="envoys">Gesandte</label>
-                <input v-on:change="onPopulationChange()" v-model="population.envoys" type="number" min="0" value="0" id="envoys" name="envoys">
+                <input v-on:change="onPopulationChange()" v-model="population.envoys" type="number" min="0" id="envoys"
+                       name="envoys">
             </div>
             <div v-if="error">{{ error }}</div>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Berechnen">
         </form>
     </article>
 </section>
