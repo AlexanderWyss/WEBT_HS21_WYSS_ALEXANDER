@@ -9,17 +9,6 @@ class Population
     public int $noblemen;
     public int $nomads;
     public int $envoys;
-
-    public function __construct(int $beggars, int $peasants, int $citizen, int $patrician, int $noblemen, int $nomads, int $envoys)
-    {
-        $this->beggars = $beggars;
-        $this->peasants = $peasants;
-        $this->citizens = $citizen;
-        $this->patricians = $patrician;
-        $this->noblemen = $noblemen;
-        $this->nomads = $nomads;
-        $this->envoys = $envoys;
-    }
 }
 
 class Needs
@@ -142,30 +131,30 @@ function calculateNeeds(Population $population): Needs
     return $needs;
 }
 
-function needsToString(Needs $needs): string
+function populationToString(Population $population): string
 {
     $stringValue = "";
-    foreach ($needs as $key => $value) {
-        $stringValue .= $key . ":" . number_format($value, 2) . ";";
+    foreach ($population as $key => $value) {
+        $stringValue .= $key . ":" . $value . ";";
     }
     return $stringValue;
 }
 
-function stringToNeeds(string $needsString): Needs
+function stringToPopulation(string $populationString): Population
 {
-    $needsValues = explode(";", $needsString);
-    $needs = new Needs();
-    foreach ($needsValues as $needValue) {
-        if (!empty($needValue)) {
-            $needKeyValue = explode(":", $needValue);
-            if (count($needKeyValue) == 2) {
-                $key = $needKeyValue[0];
-                $value = (float)$needKeyValue[1];
-                $needs->$key = $value;
+    $populationValues = explode(";", $populationString);
+    $population = new Population();
+    foreach ($populationValues as $populationValue) {
+        if (!empty($populationValue)) {
+            $keyValue = explode(":", $populationValue);
+            if (count($keyValue) == 2) {
+                $key = $keyValue[0];
+                $value = (float)$keyValue[1];
+                $population->$key = $value;
             }
         }
     }
-    return $needs;
+    return $population;
 }
 
 function validateInt(string $value): int
@@ -184,17 +173,24 @@ function validateInt(string $value): int
 
 function readPopulationFromRequest(): Population
 {
-    return new Population(validateInt($_POST['beggars']), validateInt($_POST['peasants']), validateInt($_POST['citizens']),
-        validateInt($_POST['patricians']), validateInt($_POST['noblemen']), validateInt($_POST['nomads']), validateInt($_POST['envoys']));
+    $population = new Population();
+    $population->beggars = validateInt($_POST['beggars']);
+    $population->peasants = validateInt($_POST['peasants']);
+    $population->citizens = validateInt($_POST['citizens']);
+    $population->patricians = validateInt($_POST['patricians']);
+    $population->noblemen = validateInt($_POST['noblemen']);
+    $population->nomads = validateInt($_POST['nomads']);
+    $population->envoys = validateInt($_POST['envoys']);
+    return $population;
 }
 
-if (isset($_COOKIE["previous_needs"])) {
-    $previousNeeds = stringToNeeds($_COOKIE["previous_needs"]);
+if (isset($_COOKIE["population"])) {
+    $previousNeeds = calculateNeeds(stringToPopulation($_COOKIE["population"]));
 }
 
 $population = readPopulationFromRequest();
 $needs = calculateNeeds($population);
-setcookie("previous_needs", needsToString($needs), time() + 60 * 60 * 24 * 30);
+setcookie("population", populationToString($population), time() + 60 * 60 * 24 * 30);
 ?>
 <!DOCTYPE html>
 <html lang="en">
