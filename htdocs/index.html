@@ -31,7 +31,7 @@
 </section>
 <section id="form-section">
     <article>
-        <form id="form" action="server.php" method="post">
+        <form id="form" action="server.php" method="post" v-on:submit="validate">
             <div>
                 <label for="comparisonType">Modus</label>
                 <select v-on:change="onComparisonTypeChange()" v-model="comparisonType" id="comparisonType"
@@ -81,6 +81,7 @@
                 <label for="envoys">Gesandte</label>
                 <input v-model="population.envoys" type="number" min="0" value="0" id="envoys" name="envoys">
             </div>
+            <div v-if="error">{{ error }}</div>
             <input type="submit" value="Submit">
         </form>
     </article>

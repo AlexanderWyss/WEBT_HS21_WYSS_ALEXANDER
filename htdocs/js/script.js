@@ -42,7 +42,8 @@ new Vue({
             noblemen: 0,
             nomads: 0,
             envoys: 0
-        }
+        },
+        error: null
     },
     methods: {
         onComparisonTypeChange() {
@@ -52,10 +53,21 @@ new Vue({
             setPopulation(this.name, this.population);
         },
         onNameChange() {
-            console.log("namechange");
-            if (this.dataOptions.includes(this.name) || this.name.endsWith("_population")) {
-                throw new Error();
+            this.name = this.name.trim();
+        },
+        validate(e) {
+            if (this.comparisonType === 'new') {
+                if (this.dataOptions.includes(this.name)) {
+                    this.error = "Name existiert bereits.";
+                    e.preventDefault();
+                    return;
+                } else if (this.name.endsWith("_population")) {
+                    this.error = "Name darf nicht mit _population enden.";
+                    e.preventDefault()
+                    return;
+                }
             }
+            this.error = null;
         }
     }
 });
