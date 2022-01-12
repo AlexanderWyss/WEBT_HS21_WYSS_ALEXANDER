@@ -228,29 +228,38 @@ if ($comparisonType == 'new' || $comparisonType == 'compare') {
 
     <link rel="icon" href="img/favicon.ico">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="css/style.css?v=1.0">
+    <link rel="stylesheet" href="css/style_result.css?v=1.0">
 </head>
 <body>
 <header class="w3-container">
     <h3>Anno 1404 Bedürfnisrechner</h3>
 </header>
 <section>
-    <article>
-        <ul>
+    <article class="w3-container">
+        <h3>Bedürfnisse</h3>
+        <ul id="result-list" class="w3-ul">
             <?php
             foreach ($needs as $key => $value) {
-                echo "<li>" . $needsTranslation[$key] . ": " . number_format($value, 2);
+                $translation = $needsTranslation[$key];
+                echo "
+<li class='w3-bar'>
+<img src='img/$key.png' alt='$translation' class='w3-bar-item'/>
+<div class='w3-bar-item'>
+<div>$translation: " . number_format($value, 2) . "</div>";
                 if (isset($previousNeeds)) {
                     $needsDiff = $value - $previousNeeds->$key;
-                    echo " <small>" . ($needsDiff >= 0 ? '+' : '') . number_format($needsDiff, 2) . "</small>";
+                    $class = $needsDiff > 0 ? 'w3-text-green' : ($needsDiff < 0 ? 'w3-text-red' : '');
+                    echo " <div class='$class'>" . ($needsDiff >= 0 ? '+' : '') . number_format($needsDiff, 2) . "</div>";
                 }
-                echo "</li>";
+                echo "</div></li>";
             }
             ?>
         </ul>
     </article>
-    <a href=".">Zurück</a>
+    <nav class="w3-container w3-col s12">
+        <a href=".">Zurück</a>
+    </nav>
 </section>
-<footer><small>&copy; Copyright 2021, Alexander Wyss</small></footer>
+<footer class="w3-container w3-center w3-text-gray"><small>&copy; Copyright 2021, Alexander Wyss</small></footer>
 </body>
 </html>

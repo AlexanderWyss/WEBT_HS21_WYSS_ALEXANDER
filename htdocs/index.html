@@ -25,109 +25,144 @@
     <a href="#canvas-section" class="w3-bar-item w3-button w3-mobile">Canvas</a>
 </nav>
 <section id="info-section">
-    <article>
-        <p>
-            Anno 1404 ist ein Aufbauspiel veröffentlicht von Ubisoft.
-            Der Spieler übernimmt die Rolle eines Seefahrers welcher sich in noch unerschlossene Territorien vorwagt und
-            diese Besiedelt.
-            Damit wagemutige Siedler in die neu errichteten Städte ziehen müssen deren Bedürfnisse erfüllt werden.
-            Zuerst Kommen nur Bauern mit einfachen Bedürfnissen wie Fisch und Most, doch wenn man weiter vorankommen
-            will und Bürger, Patrizier sowie Adlige in die Stadt locken will, müssen komplexere Güter wie Kerzenhalter
-            hergestellt werden.
-        </p>
-        <img src="img/island.jpg" alt="Anno 1404 Siedlung"/>
-        <p>
-            Dieser Rechner hilft dabei. Anhand der Anzahl Einwohner wird die Anzahl der benötigten
-            Produktionsgebäude pro Bedürfnis errechnet, damit die Siedlung stabil versorgt werden kann.
-        </p>
-        <img src="img/Anno_1404.jpg" alt="Anno 1404 Spiel Cover"/>
-        <h4>Bedienung</h4>
-        <p>
-            Einfach die Anzahl Einwohner pro Bevölkerungsstufe im unteren Formular eintragen und Berechnen drücken.
-            <br/>
-            Damit mann dies nicht immer wieder alles Manuell eintragen muss kann man mit dem Modus die Werten mit
-            vorherigen eingaben vergleichen.
-            <br/>
-            Mit dem Modus "Neu" kann man einen neuen Bevölkerungseintrag erstellen. Dabei muss man zusätzlich noch einen
-            Namen eingeben um ihn später wieder identifizieren zu können. Durch Berechnen wird der Eintrag gespeichert.
-            <br/>
-            Wenn man diese dann für einen neue Anzahl Einwohner vergleichen will, kann mit dem Modus "Vergleichen" eine der erstellten Bevölkerungseinträge
-            auswählen. Dann die neue Bevölkerungszahlen eintragen und mit Berechnen die neuen Daten gleich speichern. In der Berechnungsübersicht wird dann der
-            Unterschied der benötigten Produktionsgebäude pro Gut angezeigt.
-        </p>
-        <p>
-            Zusätzlich werden gleich die verschiedenen Anzahl Bewohner in einem wirklich äusserst extrem praktischen Diagramm dargestellt.
-        </p>
+    <article class="w3-container w3-row w3-margin-bottom">
+        <div class="w3-col s12 m8">
+            <p>
+                Anno 1404 ist ein Aufbauspiel veröffentlicht von Ubisoft.
+                Der Spieler übernimmt die Rolle eines Seefahrers welcher sich in noch unerschlossene Territorien vorwagt
+                und
+                diese Besiedelt.
+                Damit wagemutige Siedler in die neu errichteten Städte ziehen müssen deren Bedürfnisse erfüllt werden.
+                Zuerst Kommen nur Bauern mit einfachen Bedürfnissen wie Fisch und Most, doch wenn man weiter vorankommen
+                will und Bürger, Patrizier sowie Adlige in die Stadt locken will, müssen komplexere Güter wie
+                Kerzenhalter
+                hergestellt werden.
+            </p>
+            <p>
+                Dieser Rechner hilft dabei. Anhand der Anzahl Einwohner wird die Anzahl der benötigten
+                Produktionsgebäude pro Bedürfnis errechnet, damit die Siedlung stabil versorgt werden kann.
+            </p>
+        </div>
+        <div class="w3-col s12 m4">
+            <img src="img/Anno_1404.jpg" alt="Anno 1404 Spiel Cover" class="w3-image"/>
+        </div>
+    </article>
+    <article class="w3-container w3-row w3-margin-bottom">
+        <div class="w3-col m12 l8">
+            <h4>Bedienung</h4>
+            <p>
+                Einfach die Anzahl Einwohner pro Bevölkerungsstufe im unteren Formular eintragen und Berechnen drücken.
+                <br/>
+                Damit mann dies nicht immer wieder alles Manuell eintragen muss kann man mit dem Modus die Werten mit
+                vorherigen eingaben vergleichen.
+                <br/>
+                Mit dem Modus "Neu" kann man einen neuen Bevölkerungseintrag erstellen. Dabei muss man zusätzlich noch
+                einen
+                Namen eingeben um ihn später wieder identifizieren zu können. Durch Berechnen wird der Eintrag
+                gespeichert.
+                <br/>
+                Wenn man diese dann für einen neue Anzahl Einwohner vergleichen will, kann mit dem Modus "Vergleichen"
+                eine
+                der erstellten Bevölkerungseinträge
+                auswählen. Dann die neue Bevölkerungszahlen eintragen und mit Berechnen die neuen Daten gleich
+                speichern. In
+                der Berechnungsübersicht wird dann der
+                Unterschied der benötigten Produktionsgebäude pro Gut angezeigt.
+            </p>
+            <p>
+                Zusätzlich werden gleich die verschiedenen Anzahl Bewohner in einem wirklich äusserst extrem praktischen
+                Diagramm dargestellt.
+            </p>
+        </div>
+        <div class="w3-col m12 l4">
+            <img src="img/island.jpg" alt="Anno 1404 Siedlung" class="w3-image"/>
+        </div>
     </article>
 </section>
-<section id="form-section">
-    <article>
-        <form id="form" action="server.php" method="post" v-on:submit="validate">
-            <div>
-                <label for="comparisonType">Modus</label>
-                <select v-on:change="onComparisonTypeChange()" v-model="comparisonType" id="comparisonType"
-                        name="comparisonType">
-                    <option value="none">Nicht vergleichen</option>
-                    <option value="new">Neu</option>
-                    <option value="compare">Vergleichen</option>
-                </select>
+<section class="w3-container">
+    <article id="form-section" class="w3-margin-bottom">
+        <form id="form" action="server.php" method="post" v-on:submit="validate" class="w3-row-padding">
+            <div class="w3-panel w3-border-left w3-col s12 l4">
+                <h4>Einstellungen</h4>
+                <p>
+                    <label for="comparisonType">Modus</label>
+                    <select v-on:change="onComparisonTypeChange()" v-model="comparisonType" id="comparisonType"
+                            name="comparisonType" class="w3-select">
+                        <option value="none">Nicht vergleichen</option>
+                        <option value="new">Neu</option>
+                        <option value="compare">Vergleichen</option>
+                    </select>
+                </p>
+                <p v-if="comparisonType === 'new'">
+                    <label for="nameNew">Name</label>
+                    <input v-model="name" v-on:change="onNameChange()" type="text" id="nameNew" name="name"
+                           pattern="[a-zA-Z0-9\-_]+" required class="w3-input">
+                </p>
+                <p v-if="error" class="w3-text-red">{{ error }}</p>
+                <p v-if="comparisonType === 'compare'">
+                    <label for="nameSelect">Name</label>
+                    <select v-model="name" v-on:change="onSelectedComparisonChange()" id="nameSelect" name="name"
+                            required
+                            class="w3-select">
+                        <option disabled value="">Bitte auswählen...</option>
+                        <option v-for="dataOption in dataOptions" v-bind:value="dataOption">{{ dataOption }}</option>
+                    </select>
+                </p>
             </div>
-            <div v-if="comparisonType === 'new'">
-                <label for="nameNew">Name</label>
-                <input v-model="name" v-on:change="onNameChange()" type="text" id="nameNew" name="name"
-                       pattern="[a-zA-Z0-9\-_]+" required>
+            <div class="w3-panel w3-border-left w3-col s12 m6 l4">
+                <h4>Okzident</h4>
+                <p>
+                    <label for="beggars">Bettler</label>
+                    <input v-on:change="onPopulationChange()" v-model="population.beggars" type="number" min="0"
+                           id="beggars" name="beggars" class="w3-input">
+                </p>
+                <p>
+                    <label for="peasants">Bauern</label>
+                    <input v-on:change="onPopulationChange()" v-model="population.peasants" type="number" min="0"
+                           id="peasants" name="peasants" class="w3-input">
+                </p>
+                <p>
+                    <label for="citizens">Bürger</label>
+                    <input v-on:change="onPopulationChange()" v-model="population.citizens" type="number" min="0"
+                           id="citizens" name="citizens" class="w3-input">
+                </p>
+                <p>
+                    <label for="patricians">Patrizier</label>
+                    <input v-on:change="onPopulationChange()" v-model="population.patricians" type="number" min="0"
+                           id="patricians"
+                           name="patricians" class="w3-input">
+                </p>
+                <p>
+                    <label for="noblemen">Adlige</label>
+                    <input v-on:change="onPopulationChange()" v-model="population.noblemen" type="number" min="0"
+                           id="noblemen" name="noblemen" class="w3-input">
+                </p>
             </div>
-            <div v-if="comparisonType === 'compare'">
-                <label for="nameSelect">Name</label>
-                <select v-model="name" v-on:change="onSelectedComparisonChange()" id="nameSelect" name="name" required>
-                    <option disabled value="">Bitte auswählen...</option>
-                    <option v-for="dataOption in dataOptions" v-bind:value="dataOption">{{ dataOption }}</option>
-                </select>
+            <div class="w3-panel w3-border-left w3-col s12 m6 l4">
+                <h4>Orient</h4>
+                <p>
+                    <label for="nomads">Nomaden</label>
+                    <input v-on:change="onPopulationChange()" v-model="population.nomads" type="number" min="0"
+                           id="nomads"
+                           name="nomads" class="w3-input">
+                </p>
+                <p>
+                    <label for="envoys">Gesandte</label>
+                    <input v-on:change="onPopulationChange()" v-model="population.envoys" type="number" min="0"
+                           id="envoys"
+                           name="envoys" class="w3-input">
+                </p>
             </div>
-            <div>
-                <label for="beggars">Bettler</label>
-                <input v-on:change="onPopulationChange()" v-model="population.beggars" type="number" min="0"
-                       id="beggars" name="beggars">
+            <div class="w3-bar w3-right-align">
+                <input v-on:click="reset()" type="button" value="Zurücksetzen" class="w3-button">
+                <input type="submit" value="Berechnen" class="w3-button w3-teal">
             </div>
-            <div>
-                <label for="peasants">Bauern</label>
-                <input v-on:change="onPopulationChange()" v-model="population.peasants" type="number" min="0"
-                       id="peasants" name="peasants">
-            </div>
-            <div>
-                <label for="citizens">Bürger</label>
-                <input v-on:change="onPopulationChange()" v-model="population.citizens" type="number" min="0"
-                       id="citizens" name="citizens">
-            </div>
-            <div>
-                <label for="patricians">Patrizier</label>
-                <input v-on:change="onPopulationChange()" v-model="population.patricians" type="number" min="0"
-                       id="patricians"
-                       name="patricians">
-            </div>
-            <div>
-                <label for="noblemen">Adlige</label>
-                <input v-on:change="onPopulationChange()" v-model="population.noblemen" type="number" min="0"
-                       id="noblemen" name="noblemen">
-            </div>
-            <div>
-                <label for="nomads">Nomaden</label>
-                <input v-on:change="onPopulationChange()" v-model="population.nomads" type="number" min="0" id="nomads"
-                       name="nomads">
-            </div>
-            <div>
-                <label for="envoys">Gesandte</label>
-                <input v-on:change="onPopulationChange()" v-model="population.envoys" type="number" min="0" id="envoys"
-                       name="envoys">
-            </div>
-            <div v-if="error">{{ error }}</div>
-            <input type="submit" value="Berechnen">
         </form>
     </article>
+    <article id="canvas-section" class="w3-padding">
+        <canvas id="canvas"></canvas>
+    </article>
 </section>
-<section id="canvas-section">
-    <canvas id="canvas"></canvas>
-</section>
-<footer><small>&copy; Copyright 2021, Alexander Wyss</small></footer>
+<footer class="w3-container w3-center w3-text-gray"><small>&copy; Copyright 2021, Alexander Wyss</small></footer>
 </body>
 </html>

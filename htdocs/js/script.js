@@ -29,7 +29,7 @@ function setPopulation(name, population) {
 }
 
 const canvasWidth = 600;
-const canvasHeight = 300;
+const canvasHeight = 600;
 
 function getCanvasContext() {
     let canvas = document.getElementById("canvas");
@@ -89,6 +89,14 @@ function run() {
                 }
                 this.error = null;
             },
+            reset() {
+                this.comparisonType = 'none';
+                this.name = "";
+                for (const populationKey in this.population) {
+                    this.population[populationKey] = 0;
+                }
+                this.onPopulationChange();
+            },
             onPopulationChange() {
                 clearCanvas(canvasContext);
                 let maxPopulation = Math.max(...Object.values(this.population));
@@ -131,6 +139,9 @@ function run() {
                         padding + 1, i === 0 ? y : (i === 10 ? y + 10 : y + 5));
                 }
             }
+        },
+        beforeMount() {
+            this.onPopulationChange();
         }
     });
 }

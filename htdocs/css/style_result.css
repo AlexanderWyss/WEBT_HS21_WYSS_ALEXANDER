@@ -1,0 +1,10 @@
+#result-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#result-list li {
+    flex: 1 1 25%;
+    min-width: 20em;
+}
