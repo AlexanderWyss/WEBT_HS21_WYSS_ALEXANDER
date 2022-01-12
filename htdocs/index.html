@@ -97,7 +97,9 @@
                 <p v-if="comparisonType === 'new'">
                     <label for="nameNew">Name</label>
                     <input v-model="name" v-on:change="onNameChange()" type="text" id="nameNew" name="name"
-                           pattern="[a-zA-Z0-9\-_]+" required class="w3-input">
+                           pattern="[a-zA-Z0-9\-_]+"
+                           oninvalid="this.setCustomValidity('Der Name ist zwingend und darf nur aus folgenden Zeichen bestehen: Buchstaben, Zahlen, -, _')"
+                           oninput="this.setCustomValidity('');" required class="w3-input">
                 </p>
                 <p v-if="error" class="w3-text-red">{{ error }}</p>
                 <p v-if="comparisonType === 'compare'">
