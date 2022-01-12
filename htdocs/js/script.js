@@ -128,7 +128,7 @@ function run() {
                     const height = canvasHeight / maxPopulation * populationValue;
                     let x = (i * (barWidth + padding)) + padding;
                     let y = canvasHeight - height;
-                    canvasContext.fillStyle = "#4287f5";
+                    canvasContext.fillStyle = "#009688";
                     canvasContext.fillRect(x, y, barWidth, height);
 
                     const imageSize = barWidth * 0.75;
