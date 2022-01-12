@@ -1,0 +1,22 @@
+#island-image {
+    transition: transform 7s ease-in-out;
+}
+
+#island-image:hover {
+    transform: scale(3) translate(5%, -10%);
+}
+
+#island-image-container {
+    overflow: hidden;
+}
+
+.nav-item {
+    transition: all 0.5s;
+}
+
+.nav-item:hover {
+    padding-right: 8px;
+    padding-left: 24px;
+    color: #009688 !important;
+    text-decoration: underline;
+}
