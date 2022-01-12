@@ -28,13 +28,22 @@ function setPopulation(name, population) {
     }
 }
 
-const canvasWidth = 600;
-const canvasHeight = 600;
+let canvasWidth;
+let canvasHeight;
 
-function getCanvasContext() {
-    let canvas = document.getElementById("canvas");
+function resizeCanvas(canvas) {
+    const containerWidth = document.getElementById("canvas-section").clientWidth - 32;
+    canvasWidth = containerWidth < 800 ? containerWidth : 800;
+    canvasHeight = 600;
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
+}
+
+function getCanvas() {
+    return document.getElementById("canvas");
+}
+
+function getCanvasContext(canvas) {
     let context = canvas.getContext("2d");
     context.font = 10 + 'px Arial';
     return context;
@@ -46,7 +55,8 @@ function clearCanvas(c) {
 }
 
 function run() {
-    const canvasContext = getCanvasContext();
+    const canvas = getCanvas();
+    const canvasContext = getCanvasContext(canvas);
     new Vue({
         el: '#form',
         data: {
@@ -99,15 +109,23 @@ function run() {
             },
             onPopulationChange() {
                 clearCanvas(canvasContext);
+                resizeCanvas(canvas);
+
                 let maxPopulation = Math.max(...Object.values(this.population));
                 if (maxPopulation === 0) {
                     maxPopulation = canvasHeight;
                 }
+
+                // bars
                 let populationKeys = Object.keys(this.population);
-                const padding = 10;
-                const barWidth = (canvasWidth / populationKeys.length) - padding;
+                let spacePerBar = canvasWidth / populationKeys.length;
+                const padding = spacePerBar * 0.2;
+                const barWidth = spacePerBar - padding;
                 for (let i = 0; i < populationKeys.length; i++) {
-                    const height = canvasHeight / maxPopulation * this.population[populationKeys[i]];
+                    let populationKey = populationKeys[i];
+                    let populationValue = this.population[populationKey];
+
+                    const height = canvasHeight / maxPopulation * populationValue;
                     let x = (i * (barWidth + padding)) + padding;
                     let y = canvasHeight - height;
                     canvasContext.fillStyle = "#4287f5";
@@ -119,13 +137,14 @@ function run() {
                     image.onload = () => {
                         canvasContext.drawImage(image, x + imagePadding, y + imagePadding, imageSize, imageSize);
                     }
-                    image.src = "img/" + populationKeys[i] + ".png";
+                    image.src = "img/" + populationKey + ".png";
 
                     canvasContext.fillStyle = "#000000";
-                    canvasContext.fillText(this.population[populationKeys[i]].toString(),
+                    canvasContext.fillText(populationValue.toString(),
                         x + imagePadding, y + (2 * imagePadding) + imageSize);
                 }
 
+                // axes
                 canvasContext.fillStyle = "#000000";
                 canvasContext.moveTo(0, 0);
                 canvasContext.lineTo(0, canvasHeight);
@@ -133,15 +152,16 @@ function run() {
                 for (let i = 0; i <= 10; i++) {
                     const y = canvasHeight - ((canvasHeight / 10) * i);
                     canvasContext.moveTo(0, y);
-                    canvasContext.lineTo(padding, y);
+                    canvasContext.lineTo(padding / 2, y);
                     canvasContext.stroke();
                     canvasContext.fillText(((maxPopulation / 10) * i).toFixed(0),
-                        padding + 1, i === 0 ? y : (i === 10 ? y + 10 : y + 5));
+                        padding / 2 + 1, i === 0 ? y : (i === 10 ? y + 10 : y + 5));
                 }
             }
         },
         beforeMount() {
             this.onPopulationChange();
+            window.onresize = this.onPopulationChange;
         }
     });
 }
